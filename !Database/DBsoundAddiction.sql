@@ -116,9 +116,10 @@ CREATE TABLE `songs` (
   `rating` decimal(10,0) DEFAULT '0',
   `genre_id` int(11) NOT NULL,
   PRIMARY KEY (`song_id`),
+  UNIQUE KEY `singer` (`singer`,`name`),
   KEY `fk_songs_genres` (`genre_id`),
   CONSTRAINT `fk_songs_genres` FOREIGN KEY (`genre_id`) REFERENCES `genres` (`genre_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -197,3 +198,15 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2018-07-06 18:14:03
+
+
+#Creating trigger after adding rating of a song to update its own rating
+DELIMITER $$
+CREATE TRIGGER after_rating_added 
+    AFTER UPDATE ON song_has_raters
+    FOR EACH ROW 
+BEGIN
+    UPDATE songs SET rating  = (SELECT AVG(rating) FROM song_has_raters WHERE song_id = NEW.song_id) 
+	WHERE song_id = NEW.song_id; 
+END$$
+DELIMITER ;
