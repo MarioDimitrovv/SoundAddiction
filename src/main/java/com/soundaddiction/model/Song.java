@@ -14,6 +14,7 @@ public class Song {
     private int songId;
     private String singer;
     private String album;
+    private String name;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate publishDate;
     private Genre genre;
@@ -25,6 +26,7 @@ public class Song {
     public Song(int songId,
                 String singer,
                 String album,
+                String name,
                 LocalDate publishDate,
                 Genre genre,
                 double rating,
@@ -32,7 +34,7 @@ public class Song {
                 String resourcePath,
                 Map<User,Double> raters) throws InvalidSongDataException {
 
-        this(singer, album, publishDate, genre, price, resourcePath);
+        this(singer, album, name, publishDate, genre, price, resourcePath);
         this.setSongId(songId);
         this.setRating(rating);
         this.setRaters(raters);
@@ -41,6 +43,7 @@ public class Song {
 
     public Song(String singer,
                 String album,
+                String name,
                 LocalDate publishDate,
                 Genre genre,
                 double price,
@@ -48,6 +51,7 @@ public class Song {
 
         this.setSinger(singer);
         this.setAlbum(album);
+        this.setName(name);
         this.setPublishDate(publishDate);
         this.setGenre(genre);
         this.setPrice(price);
@@ -82,6 +86,14 @@ public class Song {
             return;
         }
         throw new InvalidSongDataException("Invalid song's album!");
+    }
+
+    private void setName(String name) throws InvalidSongDataException {
+        if(Checker.isNotNullOrEmpty(name)) {
+            this.name = name;
+            return;
+        }
+        throw new InvalidSongDataException("Invalid song's name!");
     }
 
     public void setPublishDate(LocalDate publishDate) throws InvalidSongDataException {
@@ -142,6 +154,10 @@ public class Song {
 
     public String getAlbum() {
         return album;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public LocalDate getPublishDate() {

@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class UserDAO {
@@ -127,4 +128,8 @@ public class UserDAO {
         System.out.println("Successfully deleted account from the database.");
     }
 
+    public Map<User,Double> getRatersBySongId(int songId) {
+
+        return null;
+    }
 }
