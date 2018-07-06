@@ -2,6 +2,7 @@ package com.soundaddiction.model;
 
 import com.soundaddiction.exceptions.InvalidSongDataException;
 import com.soundaddiction.util.Checker;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -13,6 +14,7 @@ public class Song {
     private int songId;
     private String singer;
     private String album;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate publishDate;
     private Genre genre;
     private double rating;

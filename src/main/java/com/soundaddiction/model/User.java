@@ -3,6 +3,7 @@ package com.soundaddiction.model;
 import com.soundaddiction.exceptions.InvalidUserDataException;
 import com.soundaddiction.util.BCrypt;
 import com.soundaddiction.util.Checker;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,7 +65,7 @@ public class User {
         }
     }
 
-    private void setUserId(int userId) throws InvalidUserDataException {
+    public void setUserId(int userId) throws InvalidUserDataException {
         if(userId > 0){
             this.userId = userId;
             return;
