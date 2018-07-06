@@ -115,6 +115,8 @@ CREATE TABLE `songs` (
   `published_date` date NOT NULL,
   `rating` decimal(10,0) DEFAULT '0',
   `genre_id` int(11) NOT NULL,
+  `resource_path` varchar(100) NOT NULL DEFAULT 'url_path',
+  `price` double NOT NULL DEFAULT 0,
   PRIMARY KEY (`song_id`),
   UNIQUE KEY `singer` (`singer`,`name`),
   KEY `fk_songs_genres` (`genre_id`),
@@ -128,7 +130,7 @@ CREATE TABLE `songs` (
 
 LOCK TABLES `songs` WRITE;
 /*!40000 ALTER TABLE `songs` DISABLE KEYS */;
-INSERT INTO `songs` VALUES (1,'The Unforgiven','Metallica','Metallica','1991-09-27',0,22),(2,'Send Me An Angel','Scorpions','Crazy World','1990-05-20',0,29),(3,'My Immortal','Evanescence','Origin','2000-02-17',0,2),(4,'Shape of you','Ed Sheeran',NULL,'2017-04-07',0,1),(5,'Vse na men','Dara',NULL,'2018-06-20',0,1),(6,'Havana','Pavell & Venci Venc','Summer hits','2018-04-11',0,7);
+INSERT INTO `songs` VALUES (1,'The Unforgiven','Metallica','Metallica','1991-09-27',0,22,'uri_path',5.50),(2,'Send Me An Angel','Scorpions','Crazy World','1990-05-20',0,29,'uri_path',5.50),(3,'My Immortal','Evanescence','Origin','2000-02-17',0,2,'uri_path',5.50),(4,'Shape of you','Ed Sheeran',NULL,'2017-04-07',0,1,'uri_path',5.50),(5,'Vse na men','Dara',NULL,'2018-06-20',0,1,'uri_path',5.50),(6,'Havana','Pavell & Venci Venc','Summer hits','2018-04-11',0,7,'uri_path',5.50);
 /*!40000 ALTER TABLE `songs` ENABLE KEYS */;
 UNLOCK TABLES;
 

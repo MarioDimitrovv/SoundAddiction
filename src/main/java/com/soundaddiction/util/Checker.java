@@ -1,32 +1,37 @@
 package com.soundaddiction.util;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.regex.Pattern;
 
 public class Checker {
 
     //Fields
-    private static final int MIN_USERNAME_LENGTH = 4;
+    private static final int MIN_USERNAME_LENGTH = 2;
 
     //Methods
     public static final boolean isNotNullOrEmpty(String str) {
-        return str != null && !str.trim().isEmpty();
+        return (str != null) && !str.trim().isEmpty();
     }
 
-    public static final boolean isValidUsername(String username) {
-        //Check if username is a validString
-        if(!isNotNullOrEmpty(username)) {
+    public static final boolean isValidName(String name) {
+        //Check if name is a validString
+        if(!isNotNullOrEmpty(name)) {
             return false;
         }
 
         //Check for a minimum length of MIN_USERNAME_LENGTH symbols
-        if(username.length() < MIN_USERNAME_LENGTH) {
+        if(name.length() < MIN_USERNAME_LENGTH) {
             return false;
         }
 
         //Check if each symbol is a lowercase letter
-        for(int i = 0; i < username.length(); i++) {
-            char ch = username.charAt(i);
-            if(!Character.isLetterOrDigit(ch)) {
+        for(int i = 0; i < name.length(); i++) {
+            if(!Character.isUpperCase(name.charAt(0))){
+                return false;
+            }
+            char ch = name.charAt(i);
+            if(!Character.isLetter(ch)) {
                 return false;
             }
         }
@@ -52,6 +57,11 @@ public class Checker {
 
     public static final boolean isValidPhoneNumber(String str){
         return str.length() == 10 && str.charAt(0) == '0' && str.matches("[0-9]+");
+    }
+
+    public static final boolean isValidDate(LocalDate date){
+        Period period = Period.between(date, LocalDate.now());
+        return (period.getYears() < 1) && (period.getMonths() < 1);
     }
 
 
