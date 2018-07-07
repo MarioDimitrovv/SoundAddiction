@@ -88,7 +88,7 @@ public class SongDAO {
         return songs;
     }
 
-    public List<Song> getSongsByName(String substring) {
+    public List<Song> getSongsByName(String substring) throws SQLException {
 
         String searchByName = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
                                 " s.genre_id, s.resource_path, s.price" +
@@ -98,10 +98,29 @@ public class SongDAO {
 
         List<Song> songs = new ArrayList<>();
 
+        try(PreparedStatement ps = dbManager.getConnection().prepareStatement(searchByName))
+        {
+            ps.setString(1,substring);
+
+                try(ResultSet rs = ps.executeQuery())
+                {
+                    while(rs.next())
+                    {
+                        String songName = rs.getString("name");
+
+                        Song song = (Song) this.getSongsByName(songName);
+
+                        songs.add(song);
+
+
+                    }
+                }
+        }
+
         return songs;
     }
 
-    public List<Song> getSongsBySingerName(String singer) {
+    public List<Song> getSongsBySingerName(String singer) throws SQLException {
 
         String searchBySinger = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
                                   " s.genre_id, s.resource_path, s.price" +
@@ -111,10 +130,26 @@ public class SongDAO {
 
         List<Song> songs = new ArrayList<>();
 
+        try(PreparedStatement ps = dbManager.getConnection().prepareStatement(searchBySinger))
+        {
+            ps.setString(1,singer);
+            try(ResultSet rs = ps.executeQuery())
+            {
+                while(rs.next())
+                {
+                    String singerName = rs.getString("singer");
+
+                    Song song = (Song) this.getSongsBySingerName(singerName);
+
+                    songs.add(song);
+                }
+            }
+        }
+
         return songs;
     }
 
-    public List<Song> getSongsByGenre(Genre genre) {
+    public List<Song> getSongsByGenre(Genre genre) throws SQLException {
 
         String searchByGenre = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
                                 " s.genre_id, s.resource_path, s.price" +
@@ -125,7 +160,23 @@ public class SongDAO {
 
         List<Song> songs = new ArrayList<>();
 
-        return null;
+        try(PreparedStatement ps = dbManager.getConnection().prepareStatement(searchByGenre))
+        {
+            ps.setObject(1,genre);
+
+            try(ResultSet rs = ps.executeQuery())
+            {
+                while(rs.next())
+                {
+                    Genre genreName = (Genre) rs.getObject("value");
+
+                    Song song = (Song) this.getSongsByGenre(genreName);
+
+                    songs.add(song);
+                }
+            }
+        }
+        return songs;
     }
 
     public void saveSong(Song song) throws SQLException, InvalidSongDataException {
