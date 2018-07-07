@@ -26,10 +26,10 @@ public class Checker {
         }
 
         //Check if each symbol is a lowercase letter
+        if(!Character.isUpperCase(name.charAt(0))){
+            return false;
+        }
         for(int i = 0; i < name.length(); i++) {
-            if(!Character.isUpperCase(name.charAt(0))){
-                return false;
-            }
             char ch = name.charAt(i);
             if(!Character.isLetter(ch)) {
                 return false;

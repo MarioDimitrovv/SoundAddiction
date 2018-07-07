@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -111,7 +112,8 @@ public class UserDAO {
             if(ps.executeUpdate() > 0){
                 try(ResultSet rs = ps.getGeneratedKeys()){
                     rs.next();
-                    user.setUserId(rs.getInt("user_id"));
+                    int userId = rs.getInt("user_id");
+                    user.setUserId(userId);
                 }
             }
 
@@ -128,8 +130,34 @@ public class UserDAO {
         System.out.println("Successfully deleted account from the database.");
     }
 
-    public Map<User,Double> getRatersBySongId(int songId) {
+    public Map<User, Double> getRatersBySongId(int songId) throws SQLException, InvalidUserDataException,
+                                                                            InvalidSongDataException {
 
-        return null;
+        Map<User, Double> raters = new HashMap<>();
+
+        String ratersBySongId = "SELECT u.user_id, u.is_admin, u.email, u.password, u.first_name, u.last_name, " +
+                                "u.money, shr.rating  " +
+                                "FROM users AS u" +
+                                "JOIN song_has_raters AS shr" +
+                                "ON shr.user_id = u.user_id" +
+                                "WHERE shr.song_id = ?; ";
+        try(PreparedStatement ps = dbManager.getConnection().prepareStatement(ratersBySongId)){
+            ps.setInt(1, songId);
+
+            try(ResultSet rs = ps.executeQuery()){
+
+                while(rs.next()){
+
+                    //First get the rating and the id of the user
+                    double rating = rs.getDouble("rating");
+                    int userId = rs.getInt("user_id");
+
+                    User user = this.getUserById(userId);
+                    raters.put(user, rating);
+
+                }
+            }
+        }
+        return raters;
     }
 }
