@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Song {
-
+    //Fields
     private int songId;
     private String singer;
     private String album;
@@ -23,6 +23,7 @@ public class Song {
     private String resourcePath;
     private Map<User, Double> raters = new HashMap<>();
 
+    //Constructors
     public Song(int songId,
                 String singer,
                 String album,
@@ -58,6 +59,7 @@ public class Song {
         this.setResourcePath(resourcePath);
     }
 
+    //Setters
     public void addRater(User rater, double rating){
         if(rater != null && rating > 0 && rating <= 5){
             this.raters.put(rater, rating);
@@ -144,6 +146,7 @@ public class Song {
         throw new InvalidSongDataException("Problem setting song's raters!");
     }
 
+    //Getters
     public int getSongId() {
         return songId;
     }

@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 public class Comment {
 
+    //Fields
     private int commentId;
     private String content;
     private User user;
@@ -15,6 +16,7 @@ public class Comment {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateTimeOfComment;
 
+    //Contructors
     public Comment(int commentId, String content, User user, Song song, LocalDateTime dateTimeOfComment)
                                                                         throws InvalidCommentDataException {
 
@@ -30,6 +32,7 @@ public class Comment {
         this.setSong(song);
     }
 
+    //Setters
     public void setCommentId(int commentId) throws InvalidCommentDataException {
         if(commentId > 0) {
             this.commentId = commentId;
@@ -70,6 +73,7 @@ public class Comment {
         throw new InvalidCommentDataException("Invalid date and time of comment setting!");
     }
 
+    //Getters
     public int getCommentId() {
         return commentId;
     }

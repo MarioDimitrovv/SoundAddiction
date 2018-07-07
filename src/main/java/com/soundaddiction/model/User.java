@@ -1,10 +1,16 @@
 package com.soundaddiction.model;
 
+import com.soundaddiction.exceptions.InvalidSongDataException;
+import com.soundaddiction.exceptions.InvalidUserActivityException;
 import com.soundaddiction.exceptions.InvalidUserDataException;
+import com.soundaddiction.model.dao.SongDAO;
+import com.soundaddiction.model.dao.UserActivitiesDAO;
+import com.soundaddiction.model.dao.UserDAO;
 import com.soundaddiction.util.BCrypt;
 import com.soundaddiction.util.Checker;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +18,14 @@ import java.util.Objects;
 
 public class User {
 
+    @Autowired
+    private UserActivitiesDAO userActivitiesDAO;
+    @Autowired
+    private UserDAO userDAO;
+    @Autowired
+    private SongDAO songDAO;
+
+    //Fields
     private int userId;
     private int isAdmin; // 1 means Admin
     private String email;
@@ -21,6 +35,7 @@ public class User {
     private double money;
     private List<Song> songs = new ArrayList<Song>();
 
+    //Constructors
     public User(int userId,
                 int isAdmin,
                 String email,
@@ -54,18 +69,73 @@ public class User {
         this.setIsAdmin(0); // 0 -> Not an Admin
     }
 
+    //Activities of a regular user
+    public void buySong(Song song) throws SQLException, InvalidUserActivityException {
+        if(song != null){
+            userActivitiesDAO.buyASong(song,this);
+            this.songs.add(song);
+            return;
+        }
+        throw new InvalidUserActivityException("Problem with buying a song!");
+    }
+
+    public void rateSong(Song song, double rating) throws SQLException, InvalidUserActivityException {
+        if(song != null && rating > 0 && rating < 5){
+            userActivitiesDAO.rateASong(song, this, rating);
+            song.addRater(this, rating);
+            return;
+        }
+        throw new InvalidUserActivityException("Problem adding a rating to a song!");
+    }
+
+    public void commentSong(Song song, String content) throws SQLException, InvalidUserActivityException {
+        if(song != null && Checker.isNotNullOrEmpty(content)){
+            userActivitiesDAO.commentASong(song, this, content);
+            return;
+        }
+        throw new InvalidUserActivityException("Problem with adding a comment to a song!");
+    }
+
+    public void deleteMyAccount() throws SQLException, InvalidUserActivityException {
+        if(!userDAO.deleteUser(this)){
+           throw new InvalidUserActivityException("Unsuccessfully deleting user's account!");
+        }
+    }
+
     public void hashUsersPassword(){
         if(Checker.isValidPassword(this.password)){
             this.password = BCrypt.hashpw(this.password, BCrypt.gensalt());
         }
     }
 
-    public void addSong(Song song){
-        if(song != null){
-            this.songs.add(song);
+    //Activities of an Admin
+    public void saveSongToDB(Song song) throws InvalidUserActivityException,
+                                               InvalidSongDataException,
+                                               SQLException {
+        if(song != null && this.isAdmin == 1){
+            songDAO.saveSong(song);
+            return;
         }
+        throw new InvalidUserActivityException("Problem with saving the song to the Database!");
     }
 
+    public void updateSong(Song song) throws InvalidUserActivityException, SQLException {
+        if(song != null && this.isAdmin == 1){
+            songDAO.updateSong(song);
+            return;
+        }
+        throw new InvalidUserActivityException("Problem with updating the song in the Database!");
+    }
+
+    public void deleteSong(Song song) throws InvalidUserActivityException, SQLException {
+        if(song != null && this.isAdmin == 1){
+            songDAO.deleteSong(song);
+            return;
+        }
+        throw new InvalidUserActivityException("Problem with deleting the song from the Database!");
+    }
+
+    //Setters
     public void setUserId(int userId) throws InvalidUserDataException {
         if(userId > 0){
             this.userId = userId;
@@ -126,6 +196,7 @@ public class User {
         throw new InvalidUserDataException("Problem setting user's songs");
     }
 
+    //Getters
     public int getUserId() {
         return userId;
     }
@@ -158,6 +229,7 @@ public class User {
         return Collections.unmodifiableList(songs);
     }
 
+    //HashCode and equals for Map<>raters in SongPOJO
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

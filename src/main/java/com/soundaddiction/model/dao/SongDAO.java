@@ -21,10 +21,8 @@ public class SongDAO {
 
     @Autowired
     private DBManager dbManager;
-
     @Autowired
     private GenreDAO genreDAO;
-
     @Autowired
     private UserDAO userDAO;
 
@@ -42,8 +40,8 @@ public class SongDAO {
             try(ResultSet rs = ps.executeQuery()){
                 rs.next();
 
-                Genre genre = genreDAO.getGenreBySongId(rs.getInt("genre_id"));
-                Map<User,Double> raters = userDAO.getRatersBySongId(rs.getInt("song_id"));
+                Genre genre = genreDAO.getGenreBySongId(songId);
+                Map<User,Double> raters = userDAO.getRatersBySongId(songId);
 
                 song = new Song(rs.getInt("song_id"),
                                 rs.getString("name"),
@@ -188,8 +186,9 @@ public class SongDAO {
             ps.setString(6, song.getResourcePath());
             ps.setDouble(7, song.getPrice());
             ps.setInt(8, song.getSongId());
-
             ps.executeUpdate();
+
+            System.out.println("Successfully updated song: "+song.getName());
         }
     }
 

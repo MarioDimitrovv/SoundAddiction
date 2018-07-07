@@ -57,7 +57,6 @@ public class DBManager {
     }
 
     //Methods
-
     public Connection getConnection() {
         if(connection == null) {
             initConnection();

@@ -20,7 +20,6 @@ public class UserDAO {
 
     @Autowired
     private DBManager dbManager;
-
     @Autowired
     private SongDAO songDAO;
 
@@ -115,7 +114,11 @@ public class UserDAO {
                 try(ResultSet rs = ps.getGeneratedKeys()){
                     rs.next();
                     int userId = rs.getInt("user_id");
+                    int isAdmin = rs.getInt("is_admin");
+                    double money = rs.getDouble("money");
                     user.setUserId(userId);
+                    user.setIsAdmin(isAdmin);
+                    user.setMoney(money);
                 }
             }
 
@@ -123,13 +126,17 @@ public class UserDAO {
 
     }
 
-    public void deleteUser(User user) throws SQLException {
+    public boolean deleteUser(User user) throws SQLException {
         String deleteUserById = "DELETE FROM users WHERE user_id = ?;";
         try (PreparedStatement ps = dbManager.getConnection().prepareStatement(deleteUserById)) {
             ps.setInt(1, user.getUserId());
             ps.executeUpdate();
+
+            System.out.println("Successfully deleted account from the database!");
+            return true;
+        }catch (SQLException e){
+            return false;
         }
-        System.out.println("Successfully deleted account from the database.");
     }
 
     public Map<User, Double> getRatersBySongId(int songId) throws SQLException, InvalidUserDataException,
