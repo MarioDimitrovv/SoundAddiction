@@ -1,6 +1,7 @@
 package com.soundaddiction.model.dao;
 
 import com.soundaddiction.exceptions.InvalidSongDataException;
+import com.soundaddiction.exceptions.InvalidUserDataException;
 import com.soundaddiction.model.Genre;
 import com.soundaddiction.model.Song;
 import com.soundaddiction.model.User;
@@ -27,7 +28,7 @@ public class SongDAO {
     @Autowired
     private UserDAO userDAO;
 
-    public Song getSongById(int songId) throws SQLException, InvalidSongDataException {
+    public Song getSongById(int songId) throws SQLException, InvalidSongDataException, InvalidUserDataException {
 
         Song song = null;
 
