@@ -26,7 +26,8 @@ public class SongDAO {
     @Autowired
     private UserDAO userDAO;
 
-    public Song getSongById(int songId) throws SQLException, InvalidSongDataException, InvalidUserDataException {
+    public Song getSongById(int songId) throws SQLException, InvalidSongDataException,
+                                                                InvalidUserDataException {
 
         Song song = null;
 
@@ -58,7 +59,8 @@ public class SongDAO {
         return song;
     }
 
-    public List<Song> getSongsByUserId(int userId) throws SQLException, InvalidSongDataException, InvalidUserDataException {
+    public List<Song> getSongsByUserId(int userId) throws SQLException, InvalidSongDataException,
+                                                                InvalidUserDataException {
 
         String searchSongsOfAUser = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
                                     "s.genre_id, s.resource_path, s.price" +
@@ -86,7 +88,8 @@ public class SongDAO {
         return songs;
     }
 
-    public List<Song> getSongsByName(String substring) throws SQLException {
+    public List<Song> getSongsByName(String substring) throws SQLException, InvalidSongDataException,
+                                                                InvalidUserDataException {
 
         String searchByName = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
                                 " s.genre_id, s.resource_path, s.price" +
@@ -98,27 +101,22 @@ public class SongDAO {
 
         try(PreparedStatement ps = dbManager.getConnection().prepareStatement(searchByName))
         {
-            ps.setString(1,substring);
+            ps.setString(1, '%'+substring+'%');
 
-                try(ResultSet rs = ps.executeQuery())
-                {
+                try(ResultSet rs = ps.executeQuery()){
                     while(rs.next())
                     {
-                        String songName = rs.getString("name");
-
-                        Song song = (Song) this.getSongsByName(songName);
-
+                        int songId = rs.getInt("song_id");
+                        Song song = this.getSongById(songId);
                         songs.add(song);
-
-
                     }
                 }
         }
-
         return songs;
     }
 
-    public List<Song> getSongsBySingerName(String singer) throws SQLException {
+    public List<Song> getSongsBySingerName(String singer) throws SQLException, InvalidSongDataException,
+                                                                InvalidUserDataException {
 
         String searchBySinger = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
                                   " s.genre_id, s.resource_path, s.price" +
@@ -130,15 +128,13 @@ public class SongDAO {
 
         try(PreparedStatement ps = dbManager.getConnection().prepareStatement(searchBySinger))
         {
-            ps.setString(1,singer);
+            ps.setString(1, '%'+singer+'%');
             try(ResultSet rs = ps.executeQuery())
             {
                 while(rs.next())
                 {
-                    String singerName = rs.getString("singer");
-
-                    Song song = (Song) this.getSongsBySingerName(singerName);
-
+                    int songId = rs.getInt("song_id");
+                    Song song = this.getSongById(songId);
                     songs.add(song);
                 }
             }
@@ -147,7 +143,8 @@ public class SongDAO {
         return songs;
     }
 
-    public List<Song> getSongsByGenre(Genre genre) throws SQLException {
+    public List<Song> getSongsByGenre(Genre genre) throws SQLException, InvalidSongDataException,
+                                                                InvalidUserDataException {
 
         String searchByGenre = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
                                 " s.genre_id, s.resource_path, s.price" +
@@ -160,16 +157,14 @@ public class SongDAO {
 
         try(PreparedStatement ps = dbManager.getConnection().prepareStatement(searchByGenre))
         {
-            ps.setObject(1,genre);
+            ps.setString(1, genre.getValue());
 
             try(ResultSet rs = ps.executeQuery())
             {
                 while(rs.next())
                 {
-                    Genre genreName = (Genre) rs.getObject("value");
-
-                    Song song = (Song) this.getSongsByGenre(genreName);
-
+                    int songId = rs.getInt("song_id");
+                    Song song = this.getSongById(songId);
                     songs.add(song);
                 }
             }
