@@ -24,7 +24,8 @@ public class UserDAO {
     @Autowired
     private SongDAO songDAO;
 
-    public User getUserById(int userId) throws SQLException, InvalidSongDataException, InvalidUserDataException {
+    public User getUserById(int userId) throws SQLException,
+                                        InvalidSongDataException, InvalidUserDataException {
 
         User user = null;
         String getUserByIdQuery = "SELECT u.user_id, u.is_admin, u.email, u.password, u.first_name," +
@@ -59,7 +60,8 @@ public class UserDAO {
         return user;
     }
 
-    public User getUserByEmailAndPass(String email, String password) throws SQLException, InvalidUserDataException {
+    public User getUserByEmailAndPass(String email, String password) throws SQLException,
+                                            InvalidUserDataException, InvalidSongDataException {
 
         User user = null;
 
@@ -135,7 +137,8 @@ public class UserDAO {
 
         Map<User, Double> raters = new HashMap<>();
 
-        String ratersBySongId = "SELECT u.user_id, u.is_admin, u.email, u.password, u.first_name, u.last_name, " +
+        String ratersBySongId = "SELECT u.user_id, u.is_admin, u.email, u.password," +
+                                " u.first_name, u.last_name, " +
                                 "u.money, shr.rating  " +
                                 "FROM users AS u" +
                                 "JOIN song_has_raters AS shr" +

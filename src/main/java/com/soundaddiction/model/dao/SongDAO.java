@@ -60,7 +60,7 @@ public class SongDAO {
         return song;
     }
 
-    public List<Song> getSongsByUserId(int userId) {
+    public List<Song> getSongsByUserId(int userId) throws SQLException, InvalidSongDataException, InvalidUserDataException {
 
         String searchSongsOfAUser = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
                                     "s.genre_id, s.resource_path, s.price" +
@@ -71,7 +71,21 @@ public class SongDAO {
 
         List<Song> songs = new ArrayList<>();
 
-        return null;
+        try(PreparedStatement ps = dbManager.getConnection().prepareStatement(searchSongsOfAUser)){
+            ps.setInt(1, userId);
+
+            try(ResultSet rs = ps.executeQuery()){
+                while(rs.next()){
+
+                    int songId = rs.getInt("song_id");
+
+                    Song song = this.getSongById(songId);
+
+                    songs.add(song);
+                }
+            }
+        }
+        return songs;
     }
 
     public List<Song> getSongsByName(String substring) {
@@ -84,7 +98,7 @@ public class SongDAO {
 
         List<Song> songs = new ArrayList<>();
 
-        return null;
+        return songs;
     }
 
     public List<Song> getSongsBySingerName(String singer) {
@@ -97,7 +111,7 @@ public class SongDAO {
 
         List<Song> songs = new ArrayList<>();
 
-        return null;
+        return songs;
     }
 
     public List<Song> getSongsByGenre(Genre genre) {
