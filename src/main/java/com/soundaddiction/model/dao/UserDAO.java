@@ -98,7 +98,7 @@ public class UserDAO {
     public void registerUser(User user) throws SQLException, InvalidUserDataException {
 
         String insertUserInDB = "INSERT INTO users(email, password, first_name, last_name)" +
-                                "VALUES(?, ?, ?, ?);";
+                                " VALUES(?, ?, ?, ?);";
 
         try(PreparedStatement ps = dbManager.getConnection().prepareStatement(insertUserInDB,
                                                     PreparedStatement.RETURN_GENERATED_KEYS)){
@@ -147,9 +147,9 @@ public class UserDAO {
         String ratersBySongId = "SELECT u.user_id, u.is_admin, u.email, u.password," +
                                 " u.first_name, u.last_name, " +
                                 "u.money, shr.rating  " +
-                                "FROM users AS u" +
-                                "JOIN song_has_raters AS shr" +
-                                "ON shr.user_id = u.user_id" +
+                                "FROM users AS u " +
+                                "JOIN song_has_raters AS shr " +
+                                "ON shr.user_id = u.user_id " +
                                 "WHERE shr.song_id = ?; ";
         try(PreparedStatement ps = dbManager.getConnection().prepareStatement(ratersBySongId)){
             ps.setInt(1, songId);
