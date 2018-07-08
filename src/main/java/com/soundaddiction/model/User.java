@@ -161,7 +161,8 @@ public class User {
     }
 
     public void setPassword(String password) throws InvalidUserDataException {
-        if(Checker.isValidPassword(password)) {
+        //if(Checker.isValidPassword(password)) { TODO
+        if(Checker.isNotNullOrEmpty(password)){
             this.password = password;
             return;
         }
@@ -171,6 +172,7 @@ public class User {
     public void setFirstName(String firstName) throws InvalidUserDataException {
         if(Checker.isValidName(firstName)) {
             this.firstName = firstName;
+            return;
         }
         throw new InvalidUserDataException("Problem setting user's first name!");
     }
@@ -178,6 +180,7 @@ public class User {
     public void setLastName(String lastName) throws InvalidUserDataException {
         if(Checker.isValidName(lastName)) {
             this.lastName = lastName;
+            return;
         }
         throw new InvalidUserDataException("Problem setting user's last name!");
     }
@@ -185,6 +188,7 @@ public class User {
     public void setMoney(double money) throws InvalidUserDataException {
         if(money >= 0){
             this.money = money;
+            return;
         }
         throw new InvalidUserDataException("Invalid users's amount of money setting!");
     }
@@ -192,6 +196,7 @@ public class User {
     public void setSongs(List<Song> songs) throws InvalidUserDataException {
         if(songs != null) {
             this.songs = songs;
+            return;
         }
         throw new InvalidUserDataException("Problem setting user's songs");
     }

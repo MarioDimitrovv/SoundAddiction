@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
@@ -24,10 +25,13 @@ public class GenreDAO {
 
         try(PreparedStatement ps = dbManager.getConnection().prepareStatement(getGenreOfASong)){
             ps.setInt(1, songId);
-            ps.executeQuery();
+            try(ResultSet rs = ps.executeQuery()){
+                rs.next();
+
+                genre = new Genre(rs.getInt("genre_id"), rs.getString("value"));
+            }
 
         }
-
-        return null;
+        return genre;
     }
 }

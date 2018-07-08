@@ -48,8 +48,8 @@ public class UserDAO {
                 //Create object user with the given userId
                 user = new User(rs.getInt("user_id"),
                                 rs.getInt("is_admin"),
-                                rs.getString("password"),
                                 rs.getString("email"),
+                                rs.getString("password"),
                                 rs.getString("first_name"),
                                 rs.getString("last_name"),
                                 rs.getDouble("money"),

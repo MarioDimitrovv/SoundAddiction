@@ -42,7 +42,7 @@ public class SongDAO {
                 rs.next();
 
                 Genre genre = genreDAO.getGenreBySongId(songId);
-                Map<User,Double> raters = userDAO.getRatersBySongId(songId);
+                Map<User, Double> raters = userDAO.getRatersBySongId(songId);
 
                 song = new Song(rs.getInt("song_id"),
                                 rs.getString("name"),
@@ -64,10 +64,10 @@ public class SongDAO {
 
         String searchSongsOfAUser = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
                                     "s.genre_id, s.resource_path, s.price" +
-                                    "FROM songs AS s" +
-                                    "JOIN user_has_songs AS uhs" +
-                                    "ON uhs.song_id = s.song_id" +
-                                    "WHERE uhs.user_id = ?;";
+                                    " FROM songs AS s" +
+                                    " JOIN user_has_songs AS uhs" +
+                                    " ON uhs.song_id = s.song_id" +
+                                    " WHERE uhs.user_id = ?;";
 
         List<Song> songs = new ArrayList<>();
 
