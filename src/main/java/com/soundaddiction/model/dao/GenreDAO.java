@@ -17,9 +17,9 @@ public class GenreDAO {
     public Genre getGenreBySongId(int songId) throws SQLException {
 
         String getGenreOfASong = "SELECT g.genre_id, g.value FROM genres AS g" +
-                                 "JOIN songs AS s" +
-                                 "ON s.genre_id = g.genre_id" +
-                                 "WHERE s.song_id = ?;";
+                                 " JOIN songs AS s" +
+                                 " ON s.genre_id = g.genre_id" +
+                                 " WHERE s.song_id = ?;";
 
         Genre genre = null;
 

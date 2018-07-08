@@ -31,7 +31,7 @@ public class UserActivitiesDAO {
 
     public void rateASong(Song song, User user, double rating) throws SQLException {
 
-        String rateSong = "INSERT INTO song_has_raters(song_id, user_id, rating)" +
+        String rateSong = "INSERT INTO song_has_raters(song_id, user_id, rating) " +
                           "VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE rating = ?;";
 
         try(PreparedStatement ps = dbManager.getConnection().prepareStatement(rateSong)){
@@ -49,7 +49,7 @@ public class UserActivitiesDAO {
 
     public void commentASong(Song song, User user, String content) throws SQLException {
 
-        String commentSong = "INSERT INTO song_has_comments(user_id, song_id, content, date_time)" +
+        String commentSong = "INSERT INTO song_has_comments(user_id, song_id, content, date_time) " +
                              "VALUES(?, ?, ?, now());";
 
         try(PreparedStatement ps = dbManager.getConnection().prepareStatement(commentSong)){

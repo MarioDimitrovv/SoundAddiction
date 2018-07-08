@@ -33,7 +33,7 @@ public class SongDAO {
 
         String getSongById = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
                              " s.genre_id, s.resource_path, s.price" +
-                             "FROM songs AS s WHERE s.song_id = ?;";
+                             " FROM songs AS s WHERE s.song_id = ?;";
 
         try(PreparedStatement ps = dbManager.getConnection().prepareStatement(getSongById)){
             ps.setInt(1, songId);
@@ -93,9 +93,9 @@ public class SongDAO {
 
         String searchByName = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
                                 " s.genre_id, s.resource_path, s.price" +
-                                "FROM songs AS s" +
-                                "WHERE s.name LIKE ?" +
-                                "ORDER BY s.name ASC;";
+                                " FROM songs AS s" +
+                                " WHERE s.name LIKE ?" +
+                                " ORDER BY s.name ASC;";
 
         List<Song> songs = new ArrayList<>();
 
@@ -120,9 +120,9 @@ public class SongDAO {
 
         String searchBySinger = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
                                   " s.genre_id, s.resource_path, s.price" +
-                                  "FROM songs AS s" +
-                                  "WHERE s.singer LIKE ?" +
-                                  "ORDER BY s.name ASC;";
+                                  " FROM songs AS s" +
+                                  " WHERE s.singer LIKE ?" +
+                                  " ORDER BY s.name ASC;";
 
         List<Song> songs = new ArrayList<>();
 
@@ -148,10 +148,10 @@ public class SongDAO {
 
         String searchByGenre = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
                                 " s.genre_id, s.resource_path, s.price" +
-                                "FROM songs AS s JOIN genres AS g" +
-                                "ON s.genre_id = g.genre_id" +
-                                "WHERE g.value = ?" +
-                                "ORDER BY s.name ASC;";
+                                " FROM songs AS s JOIN genres AS g" +
+                                " ON s.genre_id = g.genre_id" +
+                                " WHERE g.value = ?" +
+                                " ORDER BY s.name ASC;";
 
         List<Song> songs = new ArrayList<>();
 
@@ -221,7 +221,7 @@ public class SongDAO {
                             "genre_id = ?," +
                             "resource_path = ?," +
                             "price = ?" +
-                            "WHERE song_id = ?;";
+                            " WHERE song_id = ?;";
 
         try(PreparedStatement ps = dbManager.getConnection().prepareStatement(updateSong)){
             ps.setString(1, song.getName());
