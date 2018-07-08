@@ -15,7 +15,7 @@ public class DBManager {
     private static final String DB_NAME = "sound_addiction";
     private static final String DB_USER = "root";
     private static final String DB_PASS = "123456";
-    private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 
     //Fields
     private static Connection connection;
@@ -35,7 +35,8 @@ public class DBManager {
 
         //2. Create connection
         try {
-            DBManager.connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%s/%s", DB_HOST,
+            DBManager.connection = DriverManager.getConnection(
+                              String.format("jdbc:mysql://%s:%s/%s?autoReconnect=true&useSSL=FALSE", DB_HOST,
                                                                                                       DB_PORT,
                                                                                                       DB_NAME),
                                                                                                       DB_USER,
