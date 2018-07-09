@@ -74,22 +74,16 @@ public class UserDAO {
             ps.setString(2, password);
 
             try(ResultSet rs = ps.executeQuery()){
-                rs.next();
+                if(rs.next()) {
 
-                int userId = rs.getInt("user_id");
+                    int userId = rs.getInt("user_id");
 
-                //First get user's songs
-                List<Song> songs = new ArrayList<>(songDAO.getSongsByUserId(userId));
+                    //First get user's songs
+                    List<Song> songs = new ArrayList<>(songDAO.getSongsByUserId(userId));
 
-                //Create object user with the given userId
-                user = new User(userId,
-                                rs.getInt("is_admin"),
-                                rs.getString("password"),
-                                rs.getString("email"),
-                                rs.getString("first_name"),
-                                rs.getString("last_name"),
-                                rs.getDouble("money"),
-                                songs);
+                    //Create object user with the given userId
+                    user = this.getUserById(userId);
+                }
             }
         }
         return user;

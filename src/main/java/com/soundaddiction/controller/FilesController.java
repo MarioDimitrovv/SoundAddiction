@@ -25,8 +25,8 @@ public class FilesController {
 
     private static final String IO_ERROR_MESSAGE = "An error occured while uploading your file. " +
                                                                                 "Please try again!";
-    private static final String IMAGES_FILEPATH = "C:\\images";
-    private static final String SONGS_FILEPATH = "C:\\songs";
+    private static final String IMAGES_FILEPATH = "C:\\song_images";
+    private static final String SONGS_FILEPATH = "C:\\song_mp3s";
     private static final String NO_IMAGE = "no-photo.jpg";
 
     public static final String uploadSong(MultipartFile uploadedFile, String filename)

@@ -11,6 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-Test if the index
+Sign Up will be here
 </body>
 </html>
