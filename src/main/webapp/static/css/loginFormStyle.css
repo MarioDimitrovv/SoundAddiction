@@ -50,8 +50,9 @@ body{
 
 .header{
 	position: absolute;
-	top: calc(50% - 250px);
-	left: calc(50% - 650px);
+	top: calc(50% - 200px);
+	left: calc(50% - 720px);
+	-webkit-filter: blur(2px);
 	z-index: 2;
 }
 
@@ -69,8 +70,8 @@ body{
 
 .login{
 	position: absolute;
-	top: calc(50% - 110px);
-	left: calc(60% - 50px);
+	top: calc(50% - 270px);
+	left: calc(50% - 120px);
 	height: 150px;
 	width: 350px;
 	padding: 10px;
@@ -142,9 +143,9 @@ body{
 }
 
 ::-webkit-input-placeholder{
-   color: rgba(255,255,255,0.6);
+	color: rgba(255,255,255,0.6);
 }
 
 ::-moz-input-placeholder{
-   color: rgba(255,255,255,0.6);
+	color: rgba(255,255,255,0.6);
 }

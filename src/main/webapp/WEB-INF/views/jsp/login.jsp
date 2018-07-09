@@ -34,6 +34,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <br>
 <div class="login">
     <form method="post" action="login">
+        <h1><font size="6" face="cursive">&emsp;&emsp;Log In</font></h1><br><br>
         <input type="email" placeholder="email"
                name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                value="test@test.com"
