@@ -40,20 +40,21 @@ public class UserDAO {
             try(ResultSet rs = ps.executeQuery()){
 
                 //Moves the resultSet to the first row
-                rs.next();
+                if(rs.next()) {
 
-                //First get user's songs
-                List<Song> songs = new ArrayList<>(songDAO.getSongsByUserId(userId));
+                    //First get user's songs
+                    List<Song> songs = new ArrayList<>(songDAO.getSongsByUserId(userId));
 
-                //Create object user with the given userId
-                user = new User(rs.getInt("user_id"),
-                                rs.getInt("is_admin"),
-                                rs.getString("email"),
-                                rs.getString("password"),
-                                rs.getString("first_name"),
-                                rs.getString("last_name"),
-                                rs.getDouble("money"),
-                                songs);
+                    //Create object user with the given userId
+                    user = new User(rs.getInt("user_id"),
+                            rs.getInt("is_admin"),
+                            rs.getString("email"),
+                            rs.getString("password"),
+                            rs.getString("first_name"),
+                            rs.getString("last_name"),
+                            rs.getDouble("money"),
+                            songs);
+                }
             }
         }
         return user;
@@ -106,13 +107,14 @@ public class UserDAO {
             //If user was successfully saved -> get his ID and set it to the object
             if(ps.executeUpdate() > 0){
                 try(ResultSet rs = ps.getGeneratedKeys()){
-                    rs.next();
-                    int userId = rs.getInt("user_id");
-                    int isAdmin = rs.getInt("is_admin");
-                    double money = rs.getDouble("money");
-                    user.setUserId(userId);
-                    user.setIsAdmin(isAdmin);
-                    user.setMoney(money);
+                    if(rs.next()) {
+                        int userId = rs.getInt("user_id");
+                        int isAdmin = rs.getInt("is_admin");
+                        double money = rs.getDouble("money");
+                        user.setUserId(userId);
+                        user.setIsAdmin(isAdmin);
+                        user.setMoney(money);
+                    }
                 }
             }
 

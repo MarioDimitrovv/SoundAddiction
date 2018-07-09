@@ -39,21 +39,22 @@ public class SongDAO {
             ps.setInt(1, songId);
 
             try(ResultSet rs = ps.executeQuery()){
-                rs.next();
+                if(rs.next()) {
 
-                Genre genre = genreDAO.getGenreBySongId(songId);
-                Map<User, Double> raters = userDAO.getRatersBySongId(songId);
+                    Genre genre = genreDAO.getGenreBySongId(songId);
+                    Map<User, Double> raters = userDAO.getRatersBySongId(songId);
 
-                song = new Song(rs.getInt("song_id"),
-                                rs.getString("name"),
-                                rs.getString("singer"),
-                                rs.getString("album"),
-                                rs.getDate("published_date").toLocalDate(),
-                                genre,
-                                rs.getDouble("rating"),
-                                rs.getDouble("price"),
-                                rs.getString("resource_path"),
-                                raters);
+                    song = new Song(rs.getInt("song_id"),
+                            rs.getString("name"),
+                            rs.getString("singer"),
+                            rs.getString("album"),
+                            rs.getDate("published_date").toLocalDate(),
+                            genre,
+                            rs.getDouble("rating"),
+                            rs.getDouble("price"),
+                            rs.getString("resource_path"),
+                            raters);
+                }
             }
         }
         return song;
@@ -193,8 +194,9 @@ public class SongDAO {
             //If song was successfully saved -> get its ID and set it to the object
             if(ps.executeUpdate() > 0){
                 try(ResultSet rs = ps.getGeneratedKeys()){
-                    rs.next();
-                    song.setSongId(rs.getInt("song_id"));
+                    if(rs.next()) {
+                        song.setSongId(rs.getInt("song_id"));
+                    }
                 }
             }
         }

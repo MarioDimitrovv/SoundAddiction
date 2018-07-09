@@ -26,11 +26,10 @@ public class GenreDAO {
         try(PreparedStatement ps = dbManager.getConnection().prepareStatement(getGenreOfASong)){
             ps.setInt(1, songId);
             try(ResultSet rs = ps.executeQuery()){
-                rs.next();
-
-                genre = new Genre(rs.getInt("genre_id"), rs.getString("value"));
+                if(rs.next()) {
+                    genre = new Genre(rs.getInt("genre_id"), rs.getString("value"));
+                }
             }
-
         }
         return genre;
     }
