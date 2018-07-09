@@ -36,12 +36,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <form method="post" action="signUp">
     <label><font size="3">First name:</font></label><br>
     <input type="text" placeholder="First name..." name="firstname"
-           pattern="/^[A-Z][a-z]{2,45}$/"
+           pattern="[A-Za-z]{1,32}"
            title="First letter - capital. Only letters"
            required maxlength="45"><br><br><br>
     <label><font size="3">Last name:</font></label><br>
     <input type="text" placeholder="Last name..." name="lastname"
-           pattern="/^[A-Z][a-z]{3,45}$/"
+           pattern="[A-Za-z]{1,32}"
            title="First letter - capital. Only letters"
            required maxlength="45"><br><br><br>
     <label><font size="3">Email address:</font></label>
@@ -51,19 +51,36 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <label><font size="3">Password:</font></label><br>
     <p><font size="2" face="cursive" color="#f4bf42"><i>At least 6 characters: 1 uppercase, 1 lowercase letter and 1 number</i></font></p>
     <input type="password" placeholder="password" name="password1"
-           pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}$"
+           pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}$" id="txtNewPassword"
            title="At least 6 characters containing: 1 Uppercase letter, 1 Lowercase letter and 1 number"
            required maxlength="45">
     <input type="password" placeholder="repeat password" name="password2"
-           pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}$"
+           pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}$" id="txtConfirmPassword"
            title="At least 6 characters containing: 1 Uppercase letter, 1 Lowercase letter and 1 number"
-           required maxlength="45"><br><br>
+           required maxlength="45" onChange="checkPasswordMatch();"><br><br>
+           <div class="registrationFormAlert" id="divCheckPasswordMatch"></div>
     <input type="submit" value="Sign Up">
     <p><a onclick="location.href='/'"><i>Back to Login</i></a></p>
     </form>
 </div>
 
 <script src='http://codepen.io/assets/libs/fullpage/jquery.js'></script>
+
+<script>
+    function checkPasswordMatch() {
+        var password = $("#txtNewPassword").val();
+        var confirmPassword = $("#txtConfirmPassword").val();
+
+        if (password != confirmPassword)
+            $("#divCheckPasswordMatch").html("Passwords do not match!");
+        else
+            $("#divCheckPasswordMatch").html("Passwords match.");
+    }
+
+    $(document).ready(function () {
+        $("#txtConfirmPassword").keyup(checkPasswordMatch);
+    });
+</script>
 
 </body>
 

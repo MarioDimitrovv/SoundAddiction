@@ -1,4 +1,3 @@
-DROP DATABASE IF EXISTS `sound_addiction`;
 CREATE DATABASE  IF NOT EXISTS `sound_addiction` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `sound_addiction`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
@@ -61,7 +60,7 @@ CREATE TABLE `song_has_comments` (
   KEY `fk_song_has_comments_songs` (`song_id`),
   CONSTRAINT `fk_song_has_comments_songs` FOREIGN KEY (`song_id`) REFERENCES `songs` (`song_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_song_has_comments_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,6 +69,7 @@ CREATE TABLE `song_has_comments` (
 
 LOCK TABLES `song_has_comments` WRITE;
 /*!40000 ALTER TABLE `song_has_comments` DISABLE KEYS */;
+INSERT INTO `song_has_comments` VALUES (1,1,1,'Best music ever','2018-07-07 12:41:59');
 /*!40000 ALTER TABLE `song_has_comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -97,6 +97,7 @@ CREATE TABLE `song_has_raters` (
 
 LOCK TABLES `song_has_raters` WRITE;
 /*!40000 ALTER TABLE `song_has_raters` DISABLE KEYS */;
+INSERT INTO `song_has_raters` VALUES (1,1,5.0),(1,2,4.0),(2,1,4.0),(2,2,9.0);
 /*!40000 ALTER TABLE `song_has_raters` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,12 +117,13 @@ CREATE TABLE `songs` (
   `rating` decimal(10,0) DEFAULT '0',
   `genre_id` int(11) NOT NULL,
   `resource_path` varchar(100) NOT NULL DEFAULT 'url_path',
-  `price` double NOT NULL DEFAULT 0,
+  `price` double NOT NULL DEFAULT '0',
+  `image_path` varchar(500) DEFAULT 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png',
   PRIMARY KEY (`song_id`),
   UNIQUE KEY `singer` (`singer`,`name`),
   KEY `fk_songs_genres` (`genre_id`),
   CONSTRAINT `fk_songs_genres` FOREIGN KEY (`genre_id`) REFERENCES `genres` (`genre_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +132,7 @@ CREATE TABLE `songs` (
 
 LOCK TABLES `songs` WRITE;
 /*!40000 ALTER TABLE `songs` DISABLE KEYS */;
-INSERT INTO `songs` VALUES (1,'The Unforgiven','Metallica','Metallica','1991-09-27',0,22,'uri_path',5.50),(2,'Send Me An Angel','Scorpions','Crazy World','1990-05-20',0,29,'uri_path',5.50),(3,'My Immortal','Evanescence','Origin','2000-02-17',0,2,'uri_path',5.50),(4,'Shape of you','Ed Sheeran',NULL,'2017-04-07',0,1,'uri_path',5.50),(5,'Vse na men','Dara',NULL,'2018-06-20',0,1,'uri_path',5.50),(6,'Havana','Pavell & Venci Venc','Summer hits','2018-04-11',0,7,'uri_path',5.50);
+INSERT INTO `songs` VALUES (1,'The Unforgiven','Metallica','Metallica','1991-09-27',0,22,'uri_path',5.5,'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png'),(2,'Send Me An Angel','Scorpions','Crazy World','1990-05-20',0,29,'uri_path',5.5,'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png'),(3,'My Immortal','Evanescence','Origin','2000-02-17',0,2,'uri_path',5.5,'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png'),(4,'Shape of you','Ed Sheeran',NULL,'2017-04-07',0,1,'uri_path',5.5,'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png'),(5,'Vse na men','Dara',NULL,'2018-06-20',0,1,'uri_path',5.5,'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png'),(6,'Havana','Pavell & Venci Venc','Summer hits','2018-04-11',0,7,'uri_path',5.5,'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png');
 /*!40000 ALTER TABLE `songs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,7 +179,7 @@ CREATE TABLE `users` (
   `money` decimal(7,2) NOT NULL DEFAULT '100.00' COMMENT 'User''s money',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,7 +188,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,0,'mario0.bg@abv.bg','mario123','Mario','Dimitrov',100.00),(2,0,'peconipetko@gmail.com','petko123','Petko','Dechev',100.00),(3,1,'soundAdmin@gmail.com','admin123','Admin','Adminov',500.00);
+INSERT INTO `users` VALUES (1,0,'mario0.bg@abv.bg','mario123','Mario','Dimitrov',100.00),(2,0,'peconipetko@gmail.com','petko123','Petko','Dechev',100.00),(3,1,'soundAdmin@gmail.com','admin123','Admin','Adminov',500.00),(6,0,'test@test.com','test123','Test','ForTest',100.00);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -199,7 +201,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-06 18:14:03
+-- Dump completed on 2018-07-09 19:01:13
 
 
 #Creating trigger after adding rating of a song to update its own rating

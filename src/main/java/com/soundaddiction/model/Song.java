@@ -21,6 +21,7 @@ public class Song {
     private double rating;
     private double price;
     private String resourcePath;
+    private String imagePath;
     private Map<User, Double> raters = new HashMap<>();
 
     //Constructors
@@ -33,9 +34,10 @@ public class Song {
                 double rating,
                 double price,
                 String resourcePath,
+                String imagePath,
                 Map<User,Double> raters) throws InvalidSongDataException {
 
-        this(singer, album, name, publishDate, genre, price, resourcePath);
+        this(singer, album, name, publishDate, genre, price, resourcePath, imagePath);
         this.setSongId(songId);
         this.setRating(rating);
         this.setRaters(raters);
@@ -48,7 +50,8 @@ public class Song {
                 LocalDate publishDate,
                 Genre genre,
                 double price,
-                String resourcePath) throws InvalidSongDataException{
+                String resourcePath,
+                String imagePath) throws InvalidSongDataException{
 
         this.setSinger(singer);
         this.setAlbum(album);
@@ -57,6 +60,7 @@ public class Song {
         this.setGenre(genre);
         this.setPrice(price);
         this.setResourcePath(resourcePath);
+        this.setImagePath(imagePath);
     }
 
     //Setters
@@ -138,6 +142,14 @@ public class Song {
         throw new InvalidSongDataException("Invalid song's resource path!");
     }
 
+    public void setImagePath(String imagePath) throws InvalidSongDataException {
+        if(Checker.isNotNullOrEmpty(imagePath)) {
+            this.imagePath = imagePath;
+            return;
+        }
+        throw new InvalidSongDataException("Invalid song's image path!");
+    }
+
     public void setRaters(Map<User, Double> raters) throws InvalidSongDataException {
         if(raters != null) {
             this.raters = raters;
@@ -180,6 +192,10 @@ public class Song {
     }
 
     public String getResourcePath() {
+        return resourcePath;
+    }
+
+    public String getImagePath() {
         return resourcePath;
     }
 

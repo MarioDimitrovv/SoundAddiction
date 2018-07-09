@@ -32,7 +32,7 @@ public class SongDAO {
         Song song = null;
 
         String getSongById = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
-                             " s.genre_id, s.resource_path, s.price" +
+                             " s.genre_id, s.resource_path, s.price, s.image_path" +
                              " FROM songs AS s WHERE s.song_id = ?;";
 
         try(PreparedStatement ps = dbManager.getConnection().prepareStatement(getSongById)){
@@ -53,6 +53,7 @@ public class SongDAO {
                             rs.getDouble("rating"),
                             rs.getDouble("price"),
                             rs.getString("resource_path"),
+                            rs.getString("image_path"),
                             raters);
                 }
             }
@@ -64,7 +65,7 @@ public class SongDAO {
                                                                 InvalidUserDataException {
 
         String searchSongsOfAUser = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
-                                    "s.genre_id, s.resource_path, s.price" +
+                                    "s.genre_id, s.resource_path, s.price, s.image_path" +
                                     " FROM songs AS s" +
                                     " JOIN user_has_songs AS uhs" +
                                     " ON uhs.song_id = s.song_id" +
@@ -93,7 +94,7 @@ public class SongDAO {
                                                                 InvalidUserDataException {
 
         String searchByName = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
-                                " s.genre_id, s.resource_path, s.price" +
+                                " s.genre_id, s.resource_path, s.price, s.image_path" +
                                 " FROM songs AS s" +
                                 " WHERE s.name LIKE ?" +
                                 " ORDER BY s.name ASC;";
@@ -120,7 +121,7 @@ public class SongDAO {
                                                                 InvalidUserDataException {
 
         String searchBySinger = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
-                                  " s.genre_id, s.resource_path, s.price" +
+                                  " s.genre_id, s.resource_path, s.price, s.image_path" +
                                   " FROM songs AS s" +
                                   " WHERE s.singer LIKE ?" +
                                   " ORDER BY s.name ASC;";
@@ -148,7 +149,7 @@ public class SongDAO {
                                                                 InvalidUserDataException {
 
         String searchByGenre = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
-                                " s.genre_id, s.resource_path, s.price" +
+                                " s.genre_id, s.resource_path, s.price, s.image_path" +
                                 " FROM songs AS s JOIN genres AS g" +
                                 " ON s.genre_id = g.genre_id" +
                                 " WHERE g.value = ?" +
@@ -176,8 +177,8 @@ public class SongDAO {
     public void saveSong(Song song) throws SQLException, InvalidSongDataException {
 
         String saveSong = "INSERT INTO songs(name, singer, album, published_date, genre_id," +
-                            " resource_path, price) " +
-                            "VALUES(?, ?, ?, ?, ?, ?, ?);";
+                            " resource_path, price, image_path) " +
+                            "VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
 
         try(PreparedStatement ps = dbManager.getConnection().prepareStatement(saveSong,
                                                 PreparedStatement.RETURN_GENERATED_KEYS)){
@@ -190,6 +191,7 @@ public class SongDAO {
             ps.setInt(5, song.getGenre().getGenreId());
             ps.setString(6, song.getResourcePath());
             ps.setDouble(7, song.getPrice());
+            ps.setString(8, song.getImagePath());
 
             //If song was successfully saved -> get its ID and set it to the object
             if(ps.executeUpdate() > 0){
@@ -223,6 +225,7 @@ public class SongDAO {
                             "genre_id = ?," +
                             "resource_path = ?," +
                             "price = ?" +
+                            "image_path = ?," +
                             " WHERE song_id = ?;";
 
         try(PreparedStatement ps = dbManager.getConnection().prepareStatement(updateSong)){
@@ -233,6 +236,7 @@ public class SongDAO {
             ps.setInt(5, song.getGenre().getGenreId());
             ps.setString(6, song.getResourcePath());
             ps.setDouble(7, song.getPrice());
+            ps.setString(6, song.getImagePath());
             ps.setInt(8, song.getSongId());
             ps.executeUpdate();
 
