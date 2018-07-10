@@ -4,6 +4,7 @@ import com.soundaddiction.exceptions.InvalidSongDataException;
 import com.soundaddiction.exceptions.InvalidUserDataException;
 import com.soundaddiction.model.Song;
 import com.soundaddiction.model.User;
+import com.soundaddiction.util.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -68,22 +69,28 @@ public class UserDAO {
         String getUserByEmailAndPass = "SELECT u.user_id, u.is_admin, u.email, u.password," +
                 " u.first_name, u.last_name, u.money " +
                 "FROM users AS u " +
-                "WHERE u.email = ? AND u.password = ?;";
+                "WHERE u.email = ?;";
 
         try(PreparedStatement ps = dbManager.getConnection().prepareStatement(getUserByEmailAndPass)){
             ps.setString(1, email);
-            ps.setString(2, password);
 
             try(ResultSet rs = ps.executeQuery()){
                 if(rs.next()) {
 
                     int userId = rs.getInt("user_id");
+                    String hashedPasswordFromDB = rs.getString("password");
 
-                    //First get user's songs
-                    List<Song> songs = new ArrayList<>(songDAO.getSongsByUserId(userId));
+                    //If entered password and hashed password in the database match
+                    if(BCrypt.checkpw(password, hashedPasswordFromDB)) {
+                        //First get user's songs
+                        List<Song> songs = new ArrayList<>(songDAO.getSongsByUserId(userId));
 
-                    //Create object user with the given userId
-                    user = this.getUserById(userId);
+                        //Create object user with the given userId
+                        user = this.getUserById(userId);
+                    }
+                    else{
+                        throw new SQLException("Passwords did not match!");
+                    }
                 }
             }
         }
@@ -108,18 +115,14 @@ public class UserDAO {
             if(ps.executeUpdate() > 0){
                 try(ResultSet rs = ps.getGeneratedKeys()){
                     if(rs.next()) {
-                        int userId = rs.getInt("user_id");
-                        int isAdmin = rs.getInt("is_admin");
-                        double money = rs.getDouble("money");
+                        int userId = rs.getInt("GENERATED_KEY");
                         user.setUserId(userId);
-                        user.setIsAdmin(isAdmin);
-                        user.setMoney(money);
+                        user.setIsAdmin(0);
+                        user.setMoney(100);
                     }
                 }
             }
-
         }
-
     }
 
     public boolean deleteUser(User user) throws SQLException {
