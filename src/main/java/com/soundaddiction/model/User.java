@@ -6,8 +6,8 @@ import com.soundaddiction.exceptions.InvalidUserDataException;
 import com.soundaddiction.model.dao.SongDAO;
 import com.soundaddiction.model.dao.UserActivitiesDAO;
 import com.soundaddiction.model.dao.UserDAO;
-import com.soundaddiction.util.BCrypt;
 import com.soundaddiction.util.Checker;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.SQLException;
@@ -63,7 +63,6 @@ public class User {
 
         this.setEmail(email);
         this.setPassword(password);
-        this.hashUsersPassword();
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setIsAdmin(0); // 0 -> Not an Admin
@@ -99,12 +98,6 @@ public class User {
     public void deleteMyAccount() throws SQLException, InvalidUserActivityException {
         if(!userDAO.deleteUser(this)){
            throw new InvalidUserActivityException("Unsuccessfully deleting user's account!");
-        }
-    }
-
-    public void hashUsersPassword(){
-        if(Checker.isValidPassword(this.password)){
-            this.password = BCrypt.hashpw(this.password, BCrypt.gensalt());
         }
     }
 

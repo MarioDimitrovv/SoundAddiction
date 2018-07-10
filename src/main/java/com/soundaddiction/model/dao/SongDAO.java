@@ -45,9 +45,39 @@ public class SongDAO {
                     Map<User, Double> raters = userDAO.getRatersBySongId(songId);
 
                     song = new Song(rs.getInt("song_id"),
-                            rs.getString("name"),
+                                rs.getString("singer"),
+                                rs.getString("album"),
+                                rs.getString("name"),
+                                rs.getDate("published_date").toLocalDate(),
+                                genre,
+                                rs.getDouble("rating"),
+                                rs.getDouble("price"),
+                                rs.getString("resource_path"),
+                                rs.getString("image_path"),
+                                raters);
+                }
+            }
+        }
+        return song;
+    }
+    public List<Song> getAllSongs() throws SQLException, InvalidSongDataException,
+                                                                InvalidUserDataException {
+
+        String getAllSongs = "SELECT s.song_id, s.name, s.singer, s.album, s.published_date, s.rating," +
+                " s.genre_id, s.resource_path, s.price, s.image_path" +
+                " FROM songs AS s;";
+
+        List<Song> songs = new ArrayList<>();
+        try(PreparedStatement ps = dbManager.getConnection().prepareStatement(getAllSongs)) {
+            try(ResultSet rs = ps.executeQuery();){
+                while(rs.next()) {
+                    int songId = rs.getInt("song_id");
+                    Genre genre = genreDAO.getGenreBySongId(songId);
+                    Map<User, Double> raters = userDAO.getRatersBySongId(songId);
+                    Song song = new Song(rs.getInt("song_id"),
                             rs.getString("singer"),
                             rs.getString("album"),
+                            rs.getString("name"),
                             rs.getDate("published_date").toLocalDate(),
                             genre,
                             rs.getDouble("rating"),
@@ -55,10 +85,11 @@ public class SongDAO {
                             rs.getString("resource_path"),
                             rs.getString("image_path"),
                             raters);
+                    songs.add(song);
                 }
             }
         }
-        return song;
+        return songs;
     }
 
     public List<Song> getSongsByUserId(int userId) throws SQLException, InvalidSongDataException,
@@ -78,11 +109,20 @@ public class SongDAO {
 
             try(ResultSet rs = ps.executeQuery()){
                 while(rs.next()){
-
                     int songId = rs.getInt("song_id");
-
-                    Song song = this.getSongById(songId);
-
+                    Genre genre = genreDAO.getGenreBySongId(songId);
+                    Map<User, Double> raters = userDAO.getRatersBySongId(songId);
+                    Song song = new Song(rs.getInt("song_id"),
+                                        rs.getString("singer"),
+                                        rs.getString("album"),
+                                        rs.getString("name"),
+                                        rs.getDate("published_date").toLocalDate(),
+                                        genre,
+                                        rs.getDouble("rating"),
+                                        rs.getDouble("price"),
+                                        rs.getString("resource_path"),
+                                        rs.getString("image_path"),
+                                        raters);
                     songs.add(song);
                 }
             }
@@ -100,16 +140,24 @@ public class SongDAO {
                                 " ORDER BY s.name ASC;";
 
         List<Song> songs = new ArrayList<>();
-
-        try(PreparedStatement ps = dbManager.getConnection().prepareStatement(searchByName))
-        {
+        try(PreparedStatement ps = dbManager.getConnection().prepareStatement(searchByName)) {
             ps.setString(1, '%'+substring+'%');
-
-                try(ResultSet rs = ps.executeQuery()){
-                    while(rs.next())
-                    {
+                try(ResultSet rs = ps.executeQuery();){
+                    while(rs.next()) {
                         int songId = rs.getInt("song_id");
-                        Song song = this.getSongById(songId);
+                        Genre genre = genreDAO.getGenreBySongId(songId);
+                        Map<User, Double> raters = userDAO.getRatersBySongId(songId);
+                        Song song = new Song(rs.getInt("song_id"),
+                                                rs.getString("singer"),
+                                                rs.getString("album"),
+                                                rs.getString("name"),
+                                                rs.getDate("published_date").toLocalDate(),
+                                                genre,
+                                                rs.getDouble("rating"),
+                                                rs.getDouble("price"),
+                                                rs.getString("resource_path"),
+                                                rs.getString("image_path"),
+                                                raters);
                         songs.add(song);
                     }
                 }
@@ -131,12 +179,23 @@ public class SongDAO {
         try(PreparedStatement ps = dbManager.getConnection().prepareStatement(searchBySinger))
         {
             ps.setString(1, '%'+singer+'%');
-            try(ResultSet rs = ps.executeQuery())
-            {
-                while(rs.next())
-                {
+            try(ResultSet rs = ps.executeQuery()) {
+                while(rs.next()) {
                     int songId = rs.getInt("song_id");
-                    Song song = this.getSongById(songId);
+                    Genre genre = genreDAO.getGenreBySongId(songId);
+                    Map<User, Double> raters = userDAO.getRatersBySongId(songId);
+
+                    Song song = new Song(rs.getInt("song_id"),
+                            rs.getString("singer"),
+                            rs.getString("album"),
+                            rs.getString("name"),
+                            rs.getDate("published_date").toLocalDate(),
+                            genre,
+                            rs.getDouble("rating"),
+                            rs.getDouble("price"),
+                            rs.getString("resource_path"),
+                            rs.getString("image_path"),
+                            raters);
                     songs.add(song);
                 }
             }
@@ -166,7 +225,19 @@ public class SongDAO {
                 while(rs.next())
                 {
                     int songId = rs.getInt("song_id");
-                    Song song = this.getSongById(songId);
+                    Map<User, Double> raters = userDAO.getRatersBySongId(songId);
+
+                    Song song = new Song(rs.getInt("song_id"),
+                            rs.getString("singer"),
+                            rs.getString("album"),
+                            rs.getString("name"),
+                            rs.getDate("published_date").toLocalDate(),
+                            genre,
+                            rs.getDouble("rating"),
+                            rs.getDouble("price"),
+                            rs.getString("resource_path"),
+                            rs.getString("image_path"),
+                            raters);
                     songs.add(song);
                 }
             }
@@ -197,7 +268,7 @@ public class SongDAO {
             if(ps.executeUpdate() > 0){
                 try(ResultSet rs = ps.getGeneratedKeys()){
                     if(rs.next()) {
-                        song.setSongId(rs.getInt("song_id"));
+                        song.setSongId(rs.getInt("GENERATED_KEY"));
                     }
                 }
             }

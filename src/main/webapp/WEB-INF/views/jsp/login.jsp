@@ -21,6 +21,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <link rel="stylesheet" href="css/loginFormStyle.css">
     <title>SoundAddiction LogIn</title>
     <script src="js/loginFormJS.js"></script>
+    <base href="http://localhost:8080/">
 
 </head>
 

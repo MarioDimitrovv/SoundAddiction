@@ -1,3 +1,4 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: Petko
@@ -15,43 +16,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/mainPageStyle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <base href="http://localhost:8080/">
 </head>
 <body>
-<div class="header">
-    <img alt="SoundAddiction Logo"  src="img/logo.png" class="logo" onclick="location.href='mainPage'">
-    <div class="header-right">
-        <section class="search">
-            <form id="searchForm" action="">
-                <input id="search-filter" type="text" maxlength="35" placeholder="Search your music..."/>
-                <button type="button" onclick="dropDownFunction()" class="dropdownbutton">
-                    <i class="fa fa-angle-down"></i>
-                </button>
-                <div id="myDropdown" class="dropdown-content">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                </div>
-            </form>
-        </section>
 
-        <button class="signupButton" onClick="logInFunction()">
-            <c:out value="${sessionScope.USER.firstName} ${sessionScope.USER.lastName}"></c:out>
-        </button>
-        <div id="secondDropdown" class="secondDropdown-content">
-            <a href="#">My Profile</a>
-            <a href="#">My Songs</a>
-            <a href="/logout">Log out</a>
-        </div>
+<!-- Include the header file via JSTL -->
+<c:import url="header.jsp"></c:import>
+
+<div class="mainContent">
+    <div class="sidebar" style="width:25%;left:0;">
+        <c:forEach var="genre" items="${sessionScope.genres}">
+            <a href="/category/${genre.genreId}" >
+                <c:out value="${genre.value}"></c:out>
+            </a>
+        </c:forEach>
+    </div>
+    <div class="main-right">
+        <c:forEach var="song" items="${songs}">
+            <img src="${song.imagePath}" alt="${song.name}">
+            <button onclick="location.href='song/${song.songId}'">Info</button>
+        </c:forEach>
     </div>
 </div>
+<div class="scrollup">
+    <a href='mainPage.html' class='back-to-top'>
 
-<div class="sidebar" style="width:25%;left:0;">
-    <a href="#" >Rock</a>
-    <a href="#" >Metal</a>
-    <a href="#" >R&B</a>
+        <i class='fa fa-angle-up'></i>
+
+    </a>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script src="js/mainPageJS.js"></script>
+<script src="../js/mainPageJS.js"></script>
 </body>
 </html>
-

@@ -86,12 +86,10 @@ public class Song {
         throw new InvalidSongDataException("Invalid song's singer!");
     }
 
-    public void setAlbum(String album) throws InvalidSongDataException {
+    public void setAlbum(String album) {
         if(Checker.isNotNullOrEmpty(album)) {
             this.album = album;
-            return;
         }
-        throw new InvalidSongDataException("Invalid song's album!");
     }
 
     private void setName(String name) throws InvalidSongDataException {
@@ -103,7 +101,7 @@ public class Song {
     }
 
     public void setPublishDate(LocalDate publishDate) throws InvalidSongDataException {
-        if(Checker.isValidDate(publishDate)) {
+        if(!publishDate.isAfter(LocalDate.now())) {
             this.publishDate = publishDate;
             return;
         }
@@ -196,7 +194,7 @@ public class Song {
     }
 
     public String getImagePath() {
-        return resourcePath;
+        return imagePath;
     }
 
     public Map<User, Double> getRaters() {

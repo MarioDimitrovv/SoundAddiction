@@ -4,7 +4,6 @@ import com.soundaddiction.exceptions.InvalidSongDataException;
 import com.soundaddiction.exceptions.InvalidUserDataException;
 import com.soundaddiction.model.User;
 import com.soundaddiction.model.dao.UserDAO;
-import com.soundaddiction.util.BCrypt;
 import com.soundaddiction.util.Checker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 
 @Controller
@@ -44,11 +41,14 @@ public class UserController {
         // Check if the credentials are valid
         User user = null;
         try {
-            user = userDAO.getUserByEmailAndPass(email, password);
+            user = userDAO.getUserByEmail(email, password);
 
-        } catch (InvalidSongDataException | InvalidUserDataException e) {
-            //If an error occurs while loading the user --> throw a DB exception
-            throw new SQLException(dbError, e);
+        } catch (InvalidSongDataException | InvalidUserDataException | SQLException e) {
+            System.out.println(e.getMessage());
+            //Show an error for invalid username or password
+            String message = "Please check your entries and try again.";
+            model.addAttribute("loginError",message);
+            return "login";
         }
 
 
@@ -62,12 +62,8 @@ public class UserController {
             // Set the IP of the request which called the server
             session.setAttribute("ip", request.getRemoteAddr());
             // Redirect to the main page service
-            return "mainPage";
+            return "redirect:mainPage";
         }
-        //Show an error for invalid username or password
-        String message = "Please check your entries and try again.";
-
-        model.addAttribute("loginError",message);
         return "login";
     }
 
@@ -87,20 +83,17 @@ public class UserController {
             if(!password.equals(passwordConfirm)){
                 throw new InvalidUserDataException("Passwords doesn't match while registering user!");
             }
-            if(!Checker.isValidName(firstName) || !Checker.isValidName(lastName) ||
-                                                    !Checker.isValidEmail(email)){
-                throw new InvalidUserDataException("Wrong names or email while registering user!");
-            }
 
             User user = new User(email, password, firstName, lastName);
             userDAO.registerUser(user);
 
             System.out.println("Successfully registered user!");
 
+
         } catch (InvalidUserDataException | SQLException e) {
             //If an error occurs while registering the user --> throw a DB exception
             System.out.println(e.getMessage());
-            throw new SQLException(dbError, e);
+            throw new SQLException(e.getMessage());
         }
         return "login";
     }

@@ -4,7 +4,7 @@ import com.soundaddiction.exceptions.InvalidSongDataException;
 import com.soundaddiction.exceptions.InvalidUserDataException;
 import com.soundaddiction.model.Song;
 import com.soundaddiction.model.User;
-import com.soundaddiction.util.BCrypt;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -61,17 +61,17 @@ public class UserDAO {
         return user;
     }
 
-    public User getUserByEmailAndPass(String email, String password) throws SQLException,
+    public User getUserByEmail(String email, String password) throws SQLException,
                                             InvalidUserDataException, InvalidSongDataException {
 
         User user = null;
 
-        String getUserByEmailAndPass = "SELECT u.user_id, u.is_admin, u.email, u.password," +
+        String getUserByEmail = "SELECT u.user_id, u.is_admin, u.email, u.password," +
                 " u.first_name, u.last_name, u.money " +
                 "FROM users AS u " +
                 "WHERE u.email = ?;";
 
-        try(PreparedStatement ps = dbManager.getConnection().prepareStatement(getUserByEmailAndPass)){
+        try(PreparedStatement ps = dbManager.getConnection().prepareStatement(getUserByEmail)){
             ps.setString(1, email);
 
             try(ResultSet rs = ps.executeQuery()){
@@ -82,15 +82,14 @@ public class UserDAO {
 
                     //If entered password and hashed password in the database match
                     if(BCrypt.checkpw(password, hashedPasswordFromDB)) {
-                        //First get user's songs
-                        List<Song> songs = new ArrayList<>(songDAO.getSongsByUserId(userId));
-
                         //Create object user with the given userId
                         user = this.getUserById(userId);
                     }
                     else{
-                        throw new SQLException("Passwords did not match!");
+                        throw new SQLException("Passwords do not match!");
                     }
+                }else{
+                    throw new SQLException("There is no user with this email!");
                 }
             }
         }
@@ -107,7 +106,7 @@ public class UserDAO {
 
             //Set values to the parameters to save the user in DB
             ps.setString(1, user.getEmail());
-            ps.setString(2, user.getPassword());
+            ps.setString(2, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
             ps.setString(3, user.getFirstName());
             ps.setString(4, user.getLastName());
 
