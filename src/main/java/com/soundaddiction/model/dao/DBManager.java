@@ -2,6 +2,7 @@ package com.soundaddiction.model.dao;
 
 import org.springframework.stereotype.Component;
 
+import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -36,14 +37,12 @@ public class DBManager {
         //2. Create connection
         try {
             DBManager.connection = DriverManager.getConnection(
-                              String.format("jdbc:mysql://%s:%s/%s?autoReconnect=true&useSSL=FALSE", DB_HOST,
-                                                                                                      DB_PORT,
-                                                                                                      DB_NAME),
-                                                                                                      DB_USER,
-                                                                                                      DB_PASS);
+                              String.format("jdbc:mysql://localhost:3306/sound_addiction?autoReconnect=true&useSSL=FALSE"
+                                                                                                        ,"root","123456"));
             this.testConnection();
         }
         catch (SQLException e) {
+            System.out.println(e.getMessage()+"================================================");
             e.printStackTrace();
         }
     }
