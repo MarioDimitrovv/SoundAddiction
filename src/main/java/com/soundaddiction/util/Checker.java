@@ -51,7 +51,7 @@ public class Checker {
 
     public static final boolean isValidPassword(String str){
         //Regex source - https://stackoverflow.com/questions/3802192/regexp-java-for-password-validation
-        Pattern ptr = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$");
+        Pattern ptr = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}$");
         return ptr.matcher(str).matches();
     }
 

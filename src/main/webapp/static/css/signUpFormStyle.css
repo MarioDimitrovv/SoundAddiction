@@ -15,7 +15,6 @@ body{
     margin: 0;
     padding: 0;
     background: #fff;
-
     color: #fff;
     font-family: Arial;
     font-size: 12px;
@@ -80,7 +79,7 @@ body{
 
 .login{
     position: absolute;
-    top: calc(50% - 300px);
+    top: calc(50% - 350px);
     left: calc(50% - 650px);
     height: 150px;
     width: 250px;

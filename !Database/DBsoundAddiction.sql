@@ -69,7 +69,6 @@ CREATE TABLE `song_has_comments` (
 
 LOCK TABLES `song_has_comments` WRITE;
 /*!40000 ALTER TABLE `song_has_comments` DISABLE KEYS */;
-INSERT INTO `song_has_comments` VALUES (1,1,1,'Best music ever','2018-07-07 12:41:59');
 /*!40000 ALTER TABLE `song_has_comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -97,7 +96,6 @@ CREATE TABLE `song_has_raters` (
 
 LOCK TABLES `song_has_raters` WRITE;
 /*!40000 ALTER TABLE `song_has_raters` DISABLE KEYS */;
-INSERT INTO `song_has_raters` VALUES (1,1,5.0),(1,2,4.0),(2,1,4.0),(2,2,9.0);
 /*!40000 ALTER TABLE `song_has_raters` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -179,7 +177,7 @@ CREATE TABLE `users` (
   `money` decimal(7,2) NOT NULL DEFAULT '100.00' COMMENT 'User''s money',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -188,7 +186,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,0,'mario0.bg@abv.bg','mario123','Mario','Dimitrov',100.00),(2,0,'peconipetko@gmail.com','petko123','Petko','Dechev',100.00),(3,1,'soundAdmin@gmail.com','admin123','Admin','Adminov',500.00),(6,0,'test@test.com','test123','Test','ForTest',100.00);
+INSERT INTO `users` VALUES (13,0,'mario0.bg@abv.bg','$2a$10$r/pNUNs2P47p0oIOz2AywOtofqCxvTIjRgujXvfmmHPtdUhXfNMOm','Mario','Dimitrov',100.00),(14,0,'peconipetko@gmail.com','$2a$10$ny5xb7VF5OvMk2uoloRaDeizTyiQubZ.kutpjKnyEi2YIf960.e7q','Petko','Dechev',100.00),(15,1,'soundadmin@soundadd.com','$2a$10$dmaIYci6q0CLAWCm89i3EO/4ByECLn4lhkWz/5vyydBb0nBImOAVy','Admin','Adminov',500.00),(16,0,'test@soundadd.com','$2a$10$LRdd627FZCFrAkoAeCvvxO2Z.6jmrzCIzBRxfBbNWRt6WGszaU5ve','TestFName','TestLName',100.00);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -201,8 +199,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-09 19:01:13
-
+-- Dump completed on 2018-07-10 14:49:40
 
 #Creating trigger after adding rating of a song to update its own rating
 DELIMITER $$

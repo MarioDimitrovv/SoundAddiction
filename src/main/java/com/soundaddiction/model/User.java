@@ -161,7 +161,6 @@ public class User {
     }
 
     public void setPassword(String password) throws InvalidUserDataException {
-        //if(Checker.isValidPassword(password)) { TODO
         if(Checker.isNotNullOrEmpty(password)){
             this.password = password;
             return;

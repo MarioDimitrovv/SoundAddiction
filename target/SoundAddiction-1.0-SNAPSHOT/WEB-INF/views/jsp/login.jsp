@@ -37,7 +37,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <h1><font size="6" face="cursive">&emsp;&emsp;Log In</font></h1><br><br>
         <input type="email" placeholder="email"
                name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
-               value="test@test.com"
+               value="test@soundadd.com"
                required maxlength="45"><br>
         <input type="password" placeholder="password"
                name="password" pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}$"
@@ -49,7 +49,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <p style="color:#ffcc00"><b><i>${loginError}</i></b></p>
         </c:if>
         <input type="submit" value="Login">
-        <p>Don't have an account? <a onclick="location.href='signUp'"><i>Join free now!</i></a></p>
+        <p>Don't have an account? <a onclick="location.href='html/signUp.html'"><i>Join free now!</i></a></p>
     </form>
 </div>
 
