@@ -32,7 +32,7 @@
     </div>
 
     <div class="songInfo">
-        <h3>Genre: <c:out value="${song.genre}"></c:out></h3>
+        <h3>Genre: <c:out value="${song.genre.value}"></c:out></h3>
         <h3>Artist/Group: <c:out value="${song.singer}"></c:out></h3>
         <h3>Rating: <c:out value="${song.rating}"></c:out></h3>
         <h3>Publish date: <c:out value="${song.publishDate}"></c:out></h3>

@@ -37,12 +37,14 @@ public class DBManager {
         //2. Create connection
         try {
             DBManager.connection = DriverManager.getConnection(
-                              String.format("jdbc:mysql://localhost:3306/sound_addiction?autoReconnect=true&useSSL=FALSE"
-                                                                                                        ,"root","123456"));
+                                                  String.format("jdbc:mysql://%s:%s/%s?autoReconnect=true&useSSL=FALSE", DB_HOST,
+                                                                                                                         DB_PORT,
+                                                                                                                         DB_NAME),
+                                                                                                                         DB_USER,
+                                                                                                                         DB_PASS);
             this.testConnection();
         }
         catch (SQLException e) {
-            System.out.println(e.getMessage()+"================================================");
             e.printStackTrace();
         }
     }
