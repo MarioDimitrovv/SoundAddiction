@@ -124,6 +124,32 @@ public class UserDAO {
         }
     }
 
+    public void updateUser(User user) throws SQLException {
+        String updateUser = "UPDATE users SET \n" +
+                            "user_id = ?,\n" +
+                            "is_admin = ?,\n" +
+                            "email = ?,\n" +
+                            "password = ?,\n" +
+                            "first_name = ?,\n" +
+                            "last_name = ?,\n" +
+                            "money = ?\n" +
+                            "WHERE user_id = ?;";
+
+        try(PreparedStatement ps = dbManager.getConnection().prepareStatement(updateUser)){
+            ps.setInt(1, user.getUserId());
+            ps.setInt(2, user.getIsAdmin());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getPassword());
+            ps.setString(5, user.getFirstName());
+            ps.setString(6, user.getLastName());
+            ps.setDouble(7, user.getMoney());
+            ps.setInt(8, user.getUserId());
+            ps.executeUpdate();
+
+            System.out.println("Successfully updated user "+user.getFirstName());
+        }
+    }
+
     public boolean deleteUser(User user) throws SQLException {
         String deleteUserById = "DELETE FROM users WHERE user_id = ?;";
         try (PreparedStatement ps = dbManager.getConnection().prepareStatement(deleteUserById)) {
@@ -160,7 +186,18 @@ public class UserDAO {
                     double rating = rs.getDouble("rating");
                     int userId = rs.getInt("user_id");
 
-                    User user = this.getUserById(userId);
+                    //First get user's songs
+                    List<Song> songs = new ArrayList<>(songDAO.getSongsByUserId(userId));
+
+                    //Create object user with the given userId
+                    User user = new User(rs.getInt("user_id"),
+                            rs.getInt("is_admin"),
+                            rs.getString("email"),
+                            rs.getString("password"),
+                            rs.getString("first_name"),
+                            rs.getString("last_name"),
+                            rs.getDouble("money"),
+                            songs);
                     raters.put(user, rating);
 
                 }

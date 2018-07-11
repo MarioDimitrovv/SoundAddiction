@@ -39,6 +39,11 @@
         <c:if test="${ not empty song.album}">
             <h3>Album: <c:out value="${song.album}"></c:out></h3>
         </c:if>
+        <span id="rate" class="rating">
+        <c:forEach begin="1" end="10" varStatus="loop">
+            <span title="Rate ${11 - loop.index}" onClick="rateProduct(${ song.songId }, ${11 - loop.index})">&#9734;</span>
+        </c:forEach>
+        </span>
     </div>
 </div>
 
@@ -46,9 +51,8 @@
     <div class="price">
         <h2><c:out value="${song.price}"></c:out>$</h2>
     </div>
-
     <div class="buy">
-        <button type="button" class="buyButton">
+        <button type="button" class="buyButton" onclick="buySong(${song.songId})">
             BUY
             <i class="fa fa-shopping-cart"></i>
         </button>
@@ -56,5 +60,6 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="../js/mainPageJS.js"></script>
+<script src="../js/userInteractions.js"></script>
 </body>
 </html>

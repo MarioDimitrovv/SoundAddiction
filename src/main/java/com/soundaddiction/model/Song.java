@@ -8,8 +8,13 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Song {
+
+    private static final double MAX_RATING = 10d;
+    private static final double MIN_RATING = 1d;
+
     //Fields
     private int songId;
     private String singer;
@@ -65,7 +70,7 @@ public class Song {
 
     //Setters
     public void addRater(User rater, double rating){
-        if(rater != null && rating > 0 && rating <= 5){
+        if(rater != null && rating >= MIN_RATING && rating <= MAX_RATING){
             this.raters.put(rater, rating);
         }
     }
@@ -117,7 +122,7 @@ public class Song {
     }
 
     public void setRating(double rating) throws InvalidSongDataException {
-        if(rating >= 1 && rating <= 5) {
+        if(rating >= MIN_RATING && rating <= MAX_RATING) {
             this.rating = rating;
             return;
         }
@@ -195,6 +200,23 @@ public class Song {
 
     public String getImagePath() {
         return imagePath;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Song song = (Song) o;
+        return songId == song.songId &&
+                Objects.equals(singer, song.singer) &&
+                Objects.equals(album, song.album) &&
+                Objects.equals(name, song.name);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(songId, singer, album, name);
     }
 
     public Map<User, Double> getRaters() {

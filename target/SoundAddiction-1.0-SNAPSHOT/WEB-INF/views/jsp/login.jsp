@@ -47,7 +47,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                required maxlength="45"><br>
         <!-- In case of invalid credentials -->
         <c:if test="${not empty loginError}">
-            <p style="color:#ffcc00"><b><i>${loginError}</i></b></p>
+            <p style="color:#ffcc00"><b><i><c:out value="${loginError}"></c:out></i></b></p>
         </c:if>
         <input type="submit" value="Login">
         <p>Don't have an account? <a onclick="location.href='html/signUp.html'"><i>Join free now!</i></a></p>

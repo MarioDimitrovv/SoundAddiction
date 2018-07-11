@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -27,7 +26,7 @@ public class HomeController {
     @Autowired
     private GenreDAO genreDAO;
 
-    private static final String dbError = "An error occured while loading the songs " +
+    private static final String dbError = "An error occurred while loading the songs " +
                                             "from the database. Please try again!";
 
     @RequestMapping(value = "/", method = RequestMethod.GET)

@@ -17,14 +17,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class User {
-
-    @Autowired
-    private UserActivitiesDAO userActivitiesDAO;
-    @Autowired
-    private UserDAO userDAO;
-    @Autowired
-    private SongDAO songDAO;
-
     //Fields
     private int userId;
     private int isAdmin; // 1 means Admin
@@ -66,66 +58,6 @@ public class User {
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setIsAdmin(0); // 0 -> Not an Admin
-    }
-
-    //Activities of a regular user
-    public void buySong(Song song) throws SQLException, InvalidUserActivityException {
-        if(song != null){
-            userActivitiesDAO.buyASong(song,this);
-            this.songs.add(song);
-            return;
-        }
-        throw new InvalidUserActivityException("Problem with buying a song!");
-    }
-
-    public void rateSong(Song song, double rating) throws SQLException, InvalidUserActivityException {
-        if(song != null && rating > 0 && rating < 5){
-            userActivitiesDAO.rateASong(song, this, rating);
-            song.addRater(this, rating);
-            return;
-        }
-        throw new InvalidUserActivityException("Problem adding a rating to a song!");
-    }
-
-    public void commentSong(Song song, String content) throws SQLException, InvalidUserActivityException {
-        if(song != null && Checker.isNotNullOrEmpty(content)){
-            userActivitiesDAO.commentASong(song, this, content);
-            return;
-        }
-        throw new InvalidUserActivityException("Problem with adding a comment to a song!");
-    }
-
-    public void deleteMyAccount() throws SQLException, InvalidUserActivityException {
-        if(!userDAO.deleteUser(this)){
-           throw new InvalidUserActivityException("Unsuccessfully deleting user's account!");
-        }
-    }
-
-    //Activities of an Admin
-    public void saveSongToDB(Song song) throws InvalidUserActivityException,
-                                               InvalidSongDataException,
-                                               SQLException {
-        if(song != null && this.isAdmin == 1){
-            songDAO.saveSong(song);
-            return;
-        }
-        throw new InvalidUserActivityException("Problem with saving the song to the Database!");
-    }
-
-    public void updateSong(Song song) throws InvalidUserActivityException, SQLException {
-        if(song != null && this.isAdmin == 1){
-            songDAO.updateSong(song);
-            return;
-        }
-        throw new InvalidUserActivityException("Problem with updating the song in the Database!");
-    }
-
-    public void deleteSong(Song song) throws InvalidUserActivityException, SQLException {
-        if(song != null && this.isAdmin == 1){
-            songDAO.deleteSong(song);
-            return;
-        }
-        throw new InvalidUserActivityException("Problem with deleting the song from the Database!");
     }
 
     //Setters
@@ -191,6 +123,14 @@ public class User {
             return;
         }
         throw new InvalidUserDataException("Problem setting user's songs");
+    }
+
+    public boolean addSong(Song song){
+        if(song != null && !songs.contains(song)) {
+            this.songs.add(song);
+            return true;
+        }
+        return false;
     }
 
     //Getters

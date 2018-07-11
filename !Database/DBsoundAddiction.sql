@@ -112,11 +112,11 @@ CREATE TABLE `songs` (
   `singer` varchar(150) NOT NULL,
   `album` varchar(150) DEFAULT NULL,
   `published_date` date NOT NULL,
-  `rating` decimal(10,0) DEFAULT '0',
   `genre_id` int(11) NOT NULL,
   `resource_path` varchar(100) NOT NULL DEFAULT 'url_path',
   `price` double NOT NULL DEFAULT '0',
   `image_path` varchar(500) DEFAULT 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png',
+  `rating` decimal(2,1) DEFAULT '1.0',
   PRIMARY KEY (`song_id`),
   UNIQUE KEY `singer` (`singer`,`name`),
   KEY `fk_songs_genres` (`genre_id`),
@@ -130,7 +130,7 @@ CREATE TABLE `songs` (
 
 LOCK TABLES `songs` WRITE;
 /*!40000 ALTER TABLE `songs` DISABLE KEYS */;
-INSERT INTO `songs` VALUES (1,'The Unforgiven','Metallica','Metallica','1991-09-27',0,22,'uri_path',5.5,'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png'),(2,'Send Me An Angel','Scorpions','Crazy World','1990-05-20',0,29,'uri_path',5.5,'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png'),(3,'My Immortal','Evanescence','Origin','2000-02-17',0,2,'uri_path',5.5,'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png'),(4,'Shape of you','Ed Sheeran',NULL,'2017-04-07',0,1,'uri_path',5.5,'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png'),(5,'Vse na men','Dara',NULL,'2018-06-20',0,1,'uri_path',5.5,'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png'),(6,'Havana','Pavell & Venci Venc','Summer hits','2018-04-11',0,7,'uri_path',5.5,'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png');
+INSERT INTO `songs` VALUES (1,'The Unforgiven','Metallica','Metallica','1991-09-27',22,'uri_path',5.5,'https://partyflock.nl/ov/images/artist/99850_800x800_450100/The-Unforgiven.jpg',1.0),(2,'Send Me An Angel','Scorpions','Crazy World','1990-05-20',29,'uri_path',5.5,'https://img.discogs.com/kkNZnyvzMWaWUXGPgiITrV4BhQI=/fit-in/600x592/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-1954159-1306387664.jpeg.jpg',1.0),(3,'My Immortal','Evanescence','Origin','2000-02-17',2,'uri_path',5.5,'https://i.pinimg.com/originals/ed/d4/da/edd4da8507af6daa1c38b91689f80c3b.jpg',1.0),(4,'Shape of you','Ed Sheeran',NULL,'2017-04-07',1,'uri_path',5.5,'https://i1.sndcdn.com/artworks-000203391173-rt6q1e-t500x500.jpg',1.0),(5,'Rodena takava','Dara',NULL,'2018-06-20',1,'uri_path',5.5,'https://direct.rhapsody.com/imageserver/images/Alb.254645635/500x500.jpg',1.0),(6,'Havana','Pavell & Venci Venc','Summer hits','2018-04-11',7,'uri_path',5.5,'https://i.ytimg.com/vi/UPvJD0_t2Zs/maxresdefault.jpg',1.0);
 /*!40000 ALTER TABLE `songs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,7 +177,7 @@ CREATE TABLE `users` (
   `money` decimal(7,2) NOT NULL DEFAULT '100.00' COMMENT 'User''s money',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,7 +186,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (13,0,'mario0.bg@abv.bg','$2a$10$r/pNUNs2P47p0oIOz2AywOtofqCxvTIjRgujXvfmmHPtdUhXfNMOm','Mario','Dimitrov',100.00),(14,0,'peconipetko@gmail.com','$2a$10$ny5xb7VF5OvMk2uoloRaDeizTyiQubZ.kutpjKnyEi2YIf960.e7q','Petko','Dechev',100.00),(15,1,'soundadmin@soundadd.com','$2a$10$dmaIYci6q0CLAWCm89i3EO/4ByECLn4lhkWz/5vyydBb0nBImOAVy','Admin','Adminov',500.00),(16,0,'test@soundadd.com','$2a$10$LRdd627FZCFrAkoAeCvvxO2Z.6jmrzCIzBRxfBbNWRt6WGszaU5ve','TestFName','TestLName',100.00);
+INSERT INTO `users` VALUES (13,0,'mario0.bg@abv.bg','$2a$10$r/pNUNs2P47p0oIOz2AywOtofqCxvTIjRgujXvfmmHPtdUhXfNMOm','Mario','Dimitrov',94.50),(14,0,'peconipetko@gmail.com','$2a$10$ny5xb7VF5OvMk2uoloRaDeizTyiQubZ.kutpjKnyEi2YIf960.e7q','Petko','Dechev',100.00),(15,1,'soundadmin@soundadd.com','$2a$10$dmaIYci6q0CLAWCm89i3EO/4ByECLn4lhkWz/5vyydBb0nBImOAVy','Admin','Adminov',500.00),(16,0,'test@soundadd.com','$2a$10$LRdd627FZCFrAkoAeCvvxO2Z.6jmrzCIzBRxfBbNWRt6WGszaU5ve','TestFName','TestLName',94.50),(17,0,'martin@gmail.com','$2a$10$d6umEDW0umAdDgd3H6ElVeFevF63QxpAHdPJOInk0ETDOwWpk4Pzq','Martin','Djanovski',100.00);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -199,7 +199,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-10 14:49:40
+-- Dump completed on 2018-07-12  2:53:14
 
 #Creating trigger after adding rating of a song to update its own rating
 DELIMITER $$
@@ -207,7 +207,9 @@ CREATE TRIGGER after_rating_added
     AFTER UPDATE ON song_has_raters
     FOR EACH ROW 
 BEGIN
-    UPDATE songs SET rating  = (SELECT AVG(rating) FROM song_has_raters WHERE song_id = NEW.song_id) 
+    UPDATE songs SET rating  = (SELECT CAST(AVG(rating) AS DECIMAL) FROM song_has_raters WHERE song_id = NEW.song_id) 
 	WHERE song_id = NEW.song_id; 
 END$$
 DELIMITER ;
+
+drop trigger after_rating_added;

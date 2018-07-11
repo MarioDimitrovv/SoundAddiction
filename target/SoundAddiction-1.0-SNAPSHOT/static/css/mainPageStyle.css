@@ -327,6 +327,9 @@ body {
     margin: 0;
     background-image: url(https://steemitimages.com/0x0/http://www.aspersnorthampton.co.uk/imgmin/backgrounds/Live-Music.jpg);
 }
+.logo{
+    box-shadow: none;
+}
 .header {
     overflow: hidden;
     background-color: #c2d6d6;
